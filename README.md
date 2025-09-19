@@ -4,8 +4,6 @@
 
 To create a new article using this format:
 
-*TODO*: Replace the `<github-organization>` with your GitHub organization.
-
 ```bash
 quarto use template tfoerst3r/quarto-pdf-letter
 ```
