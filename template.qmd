@@ -1,0 +1,20 @@
+---
+format:
+  base-letter-pdf:
+    myName: Max
+    mySurname: Mustermann
+    myStreet: Musterstrasse 12
+    myCity: 01234 Musterstadt
+    mySubject: Current Weather
+    
+    toName: Sindy Bauer
+    toBranch: Public Relation
+    toStreet: Maxstr. 1
+    toCompany: Muster GmbH
+    toCity: 43210 Kannstadt
+
+    opening: Dear Mrs. Bauer
+    closing: Best regards
+---
+
+I need to inform you about the great weather today.

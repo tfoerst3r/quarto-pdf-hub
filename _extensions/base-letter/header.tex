@@ -1,0 +1,178 @@
+\documentclass[DIN,
+    fontsize=11pt,           % fontsize
+    paper=a4,                % page size a4
+    firsthead=on,            % display header on first page
+    firstfoot=on,            % display footer on first page
+    pagenumber=off,          % position of the page number
+    parskip=half,            % Use indent instead of skip, half, false
+    enlargefirstpage=on,     % more space on first page
+    fromalign=locationright, % placement of name in letter head
+    fromrule=afteraddress,
+    addrfield=on,            % address field for envelope with window
+    subject=beforeopening,   % placement of subject, beforeopening or titled
+    foldmarks=on,            % print foldmarks
+    numericaldate=on,        % display date in numbers only
+]{scrlttr2}
+
+%===== Variables =====%
+\newcommand{\myName}{$myName$}
+\newcommand{\mySurname}{$mySurname$}
+\newcommand{\myStreet}{$myStreet$}
+\newcommand{\myCity}{$myCity$}
+\newcommand{\myMail}{$myMail$}
+\newcommand{\myPhone}{$myPhone$}
+\newcommand{\mySubject}{$mySubject$}
+\newcommand{\myLang}{$myLang$}
+\newcommand{\mySignatureLink}{$mySignatureLink$}
+
+\newcommand{\toSalute}{$toSalute$}
+\newcommand{\toName}{$toName$}
+\newcommand{\toBranch}{$toBranch$}
+\newcommand{\toCompany}{$toCompany$}
+\newcommand{\toStreet}{$toStreet$}
+\newcommand{\toCity}{$toCity$}
+
+\newcommand{\myClosing}{$closing$}
+\newcommand{\myOpening}{$opening$}
+
+%===== Packages =====%
+\usepackage[utf8]{inputenc}
+\usepackage[dvips]{graphicx}
+\usepackage[ngerman]{babel}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage[rgb]{xcolor}
+\usepackage{marvosym}
+\usepackage{lastpage}
+\usepackage{scrlayer-scrpage}
+\usepackage{xstring}
+
+\usepackage{hyperref}
+\hypersetup{%
+    pdfborder=0 0 0,
+    pdfauthor={},
+    pdftitle={},
+    pdfsubject={},
+    pdfkeywords={},
+    pdfpagemode={UseOutlines},
+    bookmarksopen,
+    pdfstartview={FitH},
+    colorlinks,
+    linkcolor={black},
+    citecolor={black},
+    urlcolor={black}
+  }
+\urlstyle{same}
+
+%===== Sizing =====%
+\geometry{a4paper,left=25mm,right=20mm}
+
+\makeatletter % box positioning and sizing
+  \@setplength{backaddrheight}{0pt} % because backaddress=off
+  
+  %-- sende box
+  \@setplength{toaddrhpos}{2.5cm}   % distance from left
+  \@setplength{toaddrvpos}{5cm}     % distance from top
+  \@setplength{toaddrheight}{3.5cm} % height of the addressbox
+  \@setplength{toaddrwidth}{10cm}   % width of the addressbox
+  
+  %-- sender box
+  \@addtoplength{locwidth}{45mm}    % width of SENDERbox
+  \@setplength{lochpos}{2cm}        % distance from top
+  \@setplength{locvpos}{32mm}       % distance from top
+  \@setplength{refvpos}{11cm}
+
+  %-- closing with signuature
+  \@setplength{sigbeforevskip}{1mm} % distance between closing and sign
+\makeatother
+
+%===== Setting =====%
+\setlength{\parindent}{0pt}
+\renewcommand*\familydefault{\sfdefault}
+\renewcommand{\raggedsignature}{\raggedright}
+
+\providecommand{\tightlist}{        
+    \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+}
+
+\RedeclarePageStyleAlias{empty}{scrheadings}
+
+
+%===== Header and Footer =====%
+\clearmainofpairofpagestyles
+\cfoot{\flushright\scriptsize\normalfont \thepage\ /\ \pageref{LastPage} }
+
+%===== srclttr2 variables =====%
+\setkomavar{date}{} 
+\setkomavar{firsthead}{}
+\setkomavar{backaddress}{\usekomavar{fromname} | \myStreet\ | \myCity }
+\setkomavar{subject}{\textbf{\mySubject}}
+
+\setkomavar{fromname}{%
+  \IfStrEq{\myName}{}{\mySurname}{
+    \IfStrEq{\mySurname}{}{\myName}{\myName\ \mySurname}}
+}
+
+\IfStrEq{\myPhone}{}{\setkomavar{fromphone}{}}{\setkomavar{fromphone}{\myPhone}}
+\IfStrEq{\myMail}{}{\setkomavar{fromemail}{}}{\setkomavar{fromemail}{\myMail}}
+
+\setkomavar{fromaddress}{%
+  \scriptsize%
+  \myStreet\\%
+  \myCity\\%
+  \Ifkomavarempty{fromemail}{}{\usekomavar{fromemail}\\}%
+  \Ifkomavarempty{fromphone}{}{\usekomavar{fromphone}\\}%
+  \IfStrEq{\myLang}{eng}{\vspace{2mm}Date: \today}{\vspace{2mm}Datum: \today}%
+}
+
+\setkomavar{location}{%
+  \raggedleft%
+  \usekomavar{fromname}\\[2mm]%
+  \usekomavar{fromaddress}%
+}
+
+\setkomavar{signature}{%
+  \IfStrEq{\mySignatureLink}{}{%
+    \vspace{0.90cm}\\}{%
+    \includegraphics[width=3.5cm]{\mySignatureLink}\\}%
+  \myName\ \mySurname%
+}
+
+\setkomavar{toname}{%
+    \IfStrEq{\toName}{}
+        {\toCompany}%
+        {\IfStrEq{\toBranch}{}%
+            {\IfStrEq{\toCompany}{}%
+                {\toName\vspace{2mm}}%
+                {\toName\\[2mm]\toCompany}%
+            }%
+            {\IfStrEq{\toCompany}{}%
+                {\toName\\\toBranch\vspace{2mm}}%
+                {\toName\\\toBranch\\[2mm]\toCompany}%
+            }%
+        }%
+}
+
+\setkomavar{toaddress}{
+    \IfStrEq{\toStreet}{}{\toCity}{\toStreet\\\toCity}
+}
+
+%== MAIN ====================================%
+\begin{document}
+\begin{letter}{}
+ 
+  $if(toSalute)$
+    \opening{\myOpening\ \toSalute\ \toName,}
+  $else$
+    \opening{\myOpening,}
+  $endif$
+  
+  $body$
+
+  \closing{\myClosing}
+
+\end{letter}
+\end{document}
+%============================================%
+
